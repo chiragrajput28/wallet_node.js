@@ -2,21 +2,17 @@
 import { createTransport } from "nodemailer";
 import sendGridtrasnporter from "nodemailer-sendgrid-transport";
 
-
-
-
-
  export const emailSender = async (email , name) => {
   const auth = {
     auth: {
-      api_key: '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',
+      api_key: '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',
     },
   };
 
   const trasnporter = createTransport(sendGridtrasnporter(auth));
 
-  const sendFrom = "moxoda1145@reimondo.com";
-  const inputuserEmail = 'chirag.ccdps28@gmail.com'
+  const sendFrom = 'chirag.ccdps28@gmail.com';
+  const inputuserEmail = 'chirag.18bit1184@abes.ac.in'
 
   const mailOptions = {
     from: sendFrom,

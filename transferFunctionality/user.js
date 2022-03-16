@@ -1,9 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.js";
 
-
-
-export const createUser = async (Name, email, password, phone) => {
+export const createUser = async (email, password, name, phone) => {
   const existingUser = await User.findOne({ email: email });
   if (existingUser) {
     console.log("User exists already!");
@@ -12,11 +10,9 @@ export const createUser = async (Name, email, password, phone) => {
   const user = new User({
     email: email,
     password: hashedPw,
-    name: Name,
-    //phone: phone,
+    name:name
   });
   const createdUser = await user.save();
-  // now sending sending mail to the user on signing up
 console.log(createdUser);
   return {
     id: createdUser._id.toString(),
