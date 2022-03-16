@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const transSchema = new mongoose.Schema(
   {
@@ -23,4 +23,4 @@ const transSchema = new mongoose.Schema(
   { timestramp: true }
 );
 
-module.exports = mongoose.model('transaction', transSchema);
+export default mongoose.model('transaction', transSchema);
