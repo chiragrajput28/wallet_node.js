@@ -27,7 +27,6 @@ export const loginCheckDB = async (email, password) => {
   const user = await User.findOne({ email: Email });
   if (!user) {
     console.error("user doesnt exist , you need to signup");
-  
   }
   const isEqual = await bcrypt.compare(Password, user.password);
   if (!isEqual) {

@@ -8,7 +8,7 @@ import { createUser, loginCheckDB } from '../transferFunctionality/user.js';
 
 // Created user into the database
 export const signup = async function (req, res, next) {
-    console.log(req.body.email);
+    // console.log(req.body.email);
     const serviceUser = await createUser(
         req.body.email,
         req.body.password,

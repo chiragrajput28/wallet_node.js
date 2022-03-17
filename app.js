@@ -31,9 +31,7 @@ app.use(bodyParser.json());
 // })
 
 mongoose
-  .connect(
-    url
-  )
+  .connect(url)
   .then(() => {
     console.log(`DB CONNECTION SUCCESSFUL`);
   })

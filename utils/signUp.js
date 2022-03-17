@@ -19,8 +19,8 @@ import sendGridtrasnporter from "nodemailer-sendgrid-transport";
     to: inputuserEmail,
     subject: "User Verification",
     html: `<h1>Hi ${name}</h1>
-            <p>Thanks for signing up your account you are now verified now .kindly,please exchange your money using our seervices.</p>
-            `,
+            <p>Your account is now verified.</p>
+            `
   };
 
    trasnporter.sendMail(mailOptions, (err, data) => {
