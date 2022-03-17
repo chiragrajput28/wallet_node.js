@@ -1,26 +1,26 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const transSchema = new mongoose.Schema(
-  {
-    sender: {
-      type: String,
-      required: true
+    {
+        sender: {
+            type: String,
+            required: true
+        },
+        recipient: {
+            type: String,
+            required: true
+        },
+        amount: {
+            type: Number,
+            required : true
+        },
+        initiator: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: false
+        }
     },
-    recipient: {
-      type: String,
-      required: true
-    },
-    amount: {
-      type: Number,
-      required : true
-    }
-    // initiator: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'User',
-    //   required: true
-    // }
-  },
-  { timestramp: true }
+    { timestramp: true }
 );
 
-module.exports = mongoose.model('transaction', transSchema);
+export default mongoose.model('Transaction', transSchema);
