@@ -37,5 +37,5 @@ mongoose
   })
   .catch((err) => console.error(err));
 
-app.use("/api/v1/trans", transactionRoute);
-app.use("/api/v1/user", userRoute);
+app.use("/trans", transactionRoute);
+app.use("/user", userRoute);
