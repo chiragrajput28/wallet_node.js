@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config({ path: "./config.env" });
+dotenv.config({ path: "./.env" });
 import bodyParser from "body-parser";
 import express from "express";
 const dbKey = process.env.DB_KEY.toString();
