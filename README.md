@@ -1,4 +1,4 @@
-<h3>wallet_node.js </h3>
+<h3>wallet using node.js </h3>
  
 Functionality:-
 
