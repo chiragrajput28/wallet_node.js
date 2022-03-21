@@ -1,18 +1,17 @@
-/* eslint-disable import/extensions */
 import { createTransport } from "nodemailer";
 import sendGridtrasnporter from "nodemailer-sendgrid-transport";
 
- export const emailSender = async (email , name) => {
+export const emailSender = async (email, name) => {
   const auth = {
     auth: {
-      api_key: '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',
+      api_key: process.env.EMAILVERIFICATION_KEY
     },
   };
 
   const trasnporter = createTransport(sendGridtrasnporter(auth));
 
-  const sendFrom = 'chirag.ccdps28@gmail.com';
-  const inputuserEmail = 'chirag.18bit1184@abes.ac.in'
+  const sendFrom = "chirag.ccdps28@gmail.com";
+  const inputuserEmail = "chirag.18bit1184@abes.ac.in";
 
   const mailOptions = {
     from: sendFrom,
@@ -20,10 +19,10 @@ import sendGridtrasnporter from "nodemailer-sendgrid-transport";
     subject: "User Verification",
     html: `<h1>Hi ${name}</h1>
             <p>Your account is now verified.</p>
-            `
+            `,
   };
 
-   trasnporter.sendMail(mailOptions, (err, data) => {
+  trasnporter.sendMail(mailOptions, (err, data) => {
     if (err) {
       console.log(err);
     } else {
