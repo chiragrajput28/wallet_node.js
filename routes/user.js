@@ -1,13 +1,12 @@
-/* eslint-disable import/extensions */
-import { Router } from 'express';
-import authenticateToken from '../middleware/session.js';
+import { Router } from "express";
+import authenticateToken from "../controller/session.js";
 
-import {  signup, login } from '../controller/user.js';
+import { signup, login } from "../services/user.js";
 
 const userRoutes = Router();
 
-userRoutes.post('/signup', signup);
+userRoutes.post("/signup", signup);
 
-userRoutes.post('/login', authenticateToken, login);
+userRoutes.post("/login", authenticateToken, login);
 
 export default userRoutes;
