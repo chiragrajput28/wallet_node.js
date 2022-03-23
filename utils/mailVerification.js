@@ -3,9 +3,7 @@ import sendGridtrasnporter from "nodemailer-sendgrid-transport";
 
 export const emailSender = async (email, name) => {
   const auth = {
-    auth: {
       api_key: process.env.EMAILVERIFICATION_KEY
-    },
   };
 
   const trasnporter = createTransport(sendGridtrasnporter(auth));
