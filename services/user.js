@@ -40,7 +40,7 @@ export const login = async function (req, res, next) {
   next();
 };
 
-export const createUser = async (email, password, name, phone) => {
+export const createUser = async (email, password, name) => {
   const existingUser = await User.findOne({ email: email });
   if (existingUser) {
     console.log("User exists already!");

@@ -32,7 +32,7 @@ export async function getTransaction(req, res, next) {
   if (getUserViewTransaction) {
     res.json({ userTransaction: getUserViewTransaction });
   } else {
-    res.json({ Message: "No transaction registered cant fetch any" });
+    res.json({ Message: "No transaction found" });
   }
   next();
 }
@@ -90,10 +90,14 @@ export const transferMoney = async (amount, sender, recipient) => {
 
 export const getTransactionByUser = async (sender) => {
   try {
-    const oneuser = await user.findOne({ name: sender });
+    const oneuser = await User.findOne({ name: sender });
     const transId = oneuser.transactionID;
+    // console.log(oneuser);
+    // console.log(transId);
     return {
-      message: `fetched. Transaction Ids of user ${oneuser.name} `,
+      message: 'fetched',
+      name: oneuser.name,
+      balance: oneuser.balance,
       transaction: transId,
     };
   } catch (err) {
