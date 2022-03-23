@@ -2,30 +2,66 @@ import bcrypt from "bcryptjs";
 import User from "../models/user.js";
 import jwt from "jsonwebtoken";
 import { emailSender } from "../utils/mailVerification.js";
+import userOTPVerification from "../models/userOTPVerification.js";
 
-export const signup = async function (req, res, next) {
+export const signup = async (req, res, next) => {
   const serviceUser = await createUser(
     req.body.email,
     req.body.password,
     req.body.name
   );
-  try {
-    if (serviceUser) {
-      emailSender(res.body.email, res.body.name);
-    }
-  } catch (err) {
-    console.log("problem in email server");
-  }
+  //console.log(req.body);
+  // try {
+  //   // if (serviceUser) {
+     emailSender(req.body.email, req.body.name);
+  //   // }
+  // } catch (err) {
+  //   console.log("problem in email server");
+  // }
   res.status(201).json({
     id: serviceUser._id,
     email: serviceUser.email,
     user: serviceUser.user,
   });
-  next();
 };
 
-export const login = async function (req, res, next) {
+export const verifyOTP = async (req, res) => {
+  try{
+    const {name, otp} = req.body
+    const userOTPVerificationRecord = await userOTPVerification.find()
+    console.log(userOTPVerificationRecord);
+    const expiresAt = userOTPVerificationRecord[0].expiresAt
+    const DB_OTP = userOTPVerificationRecord[0].otp
+    if (expiresAt < Date.now()) {
+      await userOTPVerification.deleteMany({name})
+      throw new error('OTP has expired') 
+    }
+    else {
+      if(DB_OTP === otp) {
+        res.json({
+          status: "verified",
+          message: "user email verified successfully"
+        })
+      }
+      else {
+        res.json({
+          status: "not verified",
+          message: "incorrect otp"
+        })
+      }
+    }
+  }
+  catch(error) {
+    res.json({
+      status: "failed",
+      message: error.message
+    })
+  }
+}
+
+export const login = async (req, res, next) => {
   const DBloginCheck = await loginCheckDB(req.body.email, req.body.password);
+  emailSender(req.body.email, req.body.name);
   if (DBloginCheck) {
     const token = jwt.sign(
       {

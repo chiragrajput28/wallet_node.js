@@ -18,7 +18,6 @@ export const emailFail = async (name, money) => {
     to: inputuserEmail,
     subject: "Failed to transfer your money",
     html: `<h1>Hi ${name} your money has not been transfered due to some issue kindly be patient.</h1>
-                <p>if your amount  has been deducted which is ${money} will be refunded back to the your account in short period of time.</p>
                 `,
   };
 

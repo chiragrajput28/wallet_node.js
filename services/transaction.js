@@ -1,8 +1,10 @@
+import authenticateToken from "../controller/session.js";
 import Transaction from "../models/transaction.js";
 import User from "../models/user.js";
 import { emailFail, emailSucsessTransfer } from "../utils/mailHelper.js";
 // Money transfer functionality
 export async function createTransaction(req, res, next) {
+  //authenticateToken(req, res)
   const createdTransaction = await transferMoney(
     req.body.amount,
     req.body.sender,
@@ -47,7 +49,7 @@ export const transferMoney = async (amount, sender, recipient) => {
     recipient: recipient,
     amount: amount,
   });
-
+  // authenticateToken(req, res)
   const savedTransaction = await transaction.save();
   const Amount = savedTransaction.amount;
   let senderUser = savedTransaction.sender;
