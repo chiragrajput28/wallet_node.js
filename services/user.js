@@ -18,11 +18,18 @@ export const signup = async (req, res, next) => {
   // } catch (err) {
   //   console.log("problem in email server");
   // }
-  res.status(201).json({
-    id: serviceUser._id,
-    email: serviceUser.email,
-    user: serviceUser.user,
-  });
+  try {
+    res.status(201).json({
+      id: serviceUser._id,
+      email: serviceUser.email,
+      user: serviceUser.user,
+    });
+  }
+  catch (error) {
+    res.json({
+      status: "user already exist",
+    })
+  }
 };
 
 export const verifyOTP = async (req, res) => {
@@ -79,8 +86,10 @@ export const login = async (req, res, next) => {
 export const createUser = async (email, password, name) => {
   const existingUser = await User.findOne({ email: email });
   if (existingUser) {
-    console.log("User exists already!");
+    console.log("User exists already!");   
+    return
   }
+  else {
   const hashedPw = await bcrypt.hash(password, 12);
   const user = new User({
     email: email,
@@ -94,6 +103,7 @@ export const createUser = async (email, password, name) => {
     email: createdUser.email,
     user: createdUser,
   };
+  }
 };
 
 export const loginCheckDB = async (email, password) => {
