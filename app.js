@@ -3,7 +3,6 @@ dotenv.config({ path: "./.env" });
 import bodyParser from "body-parser";
 import express from "express";
 const dbKey = process.env.DB_KEY.toString();
-//console.log(url);
 import mongoose from "mongoose";
 const app = express();
 import transactionRoute from "./routes/transaction.js";

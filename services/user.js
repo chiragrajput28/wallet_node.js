@@ -10,14 +10,7 @@ export const signup = async (req, res, next) => {
     req.body.password,
     req.body.name
   );
-  //console.log(req.body);
-  // try {
-  //   // if (serviceUser) {
-     emailSender(req.body.email, req.body.name);
-  //   // }
-  // } catch (err) {
-  //   console.log("problem in email server");
-  // }
+  emailSender(req.body.email, req.body.name);
   try {
     res.status(201).json({
       id: serviceUser._id,

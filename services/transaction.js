@@ -94,8 +94,6 @@ export const getTransactionByUser = async (sender) => {
   try {
     const oneuser = await User.findOne({ name: sender });
     const transId = oneuser.transactionID;
-    // console.log(oneuser);
-    // console.log(transId);
     return {
       message: 'fetched',
       name: oneuser.name,
