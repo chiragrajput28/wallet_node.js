@@ -4,7 +4,7 @@ import User from "../models/user.js";
 import { emailFail, emailSucsessTransfer } from "../utils/mailHelper.js";
 // Money transfer functionality
 export async function createTransaction(req, res, next) {
-   authenticateToken(req, res)
+  //authenticateToken(req, res)
   const createdTransaction = await transferMoney(
     req.body.amount,
     req.body.sender,
@@ -59,6 +59,13 @@ export const transferMoney = async (amount, sender, recipient) => {
 
   recipientUser = await User.findOne({ name: recipientUser });
 
+  if (senderUser === null) {
+    return "please enter a valid sender name"
+  }
+
+  if (recipientUser === null) {
+    return "please enter a valid recipient name"
+  }
   const senderBalance = senderUser.balance;
   const recipientBalance = recipientUser.balance;
 

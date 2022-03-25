@@ -27,13 +27,23 @@ export const signup = async (req, res, next) => {
 
 export const verifyOTP = async (req, res) => {
   try{
-    const {name, otp} = req.body
-    const userOTPVerificationRecord = await userOTPVerification.find()
-    console.log(userOTPVerificationRecord);
+    const {email, otp} = req.body
+    const userOTPVerificationRecord = await userOTPVerification.find({
+      otp
+    })
+    if (userOTPVerificationRecord === []) {
+      res.json({
+        status: "not verified",
+        message: "incorrect otp"
+      })
+      return false
+    }
+    //console.log(userOTPVerificationRecord);
     const expiresAt = userOTPVerificationRecord[0].expiresAt
     const DB_OTP = userOTPVerificationRecord[0].otp
+    //console.log(DB_OTP);
     if (expiresAt < Date.now()) {
-      await userOTPVerification.deleteMany({name})
+      await userOTPVerification.deleteMany({email})
       throw new error('OTP has expired') 
     }
     else {
@@ -41,12 +51,6 @@ export const verifyOTP = async (req, res) => {
         res.json({
           status: "verified",
           message: "user email verified successfully"
-        })
-      }
-      else {
-        res.json({
-          status: "not verified",
-          message: "incorrect otp"
         })
       }
     }
@@ -61,7 +65,7 @@ export const verifyOTP = async (req, res) => {
 
 export const login = async (req, res, next) => {
   const DBloginCheck = await loginCheckDB(req.body.email, req.body.password);
-  emailSender(req.body.email, req.body.name);
+  const OTPverified = await verifyOTP(req, res);
   if (DBloginCheck) {
     const token = jwt.sign(
       {
@@ -73,11 +77,17 @@ export const login = async (req, res, next) => {
     );
     res.status(200).json({ token: token, userId: DBloginCheck.id });
   }
+  else {
+    res.status(400).json({ 
+      status: "invalid user", 
+      message: "please check your email and password"
+    });
+  } 
   next();
 };
 
 export const createUser = async (email, password, name) => {
-  const existingUser = await User.findOne({ email: email });
+  const existingUser = await User.findOne({ email });
   if (existingUser) {
     console.log("User exists already!");   
     return
@@ -104,11 +114,13 @@ export const loginCheckDB = async (email, password) => {
   const Password = password;
   const user = await User.findOne({ email: Email });
   if (!user) {
-    console.error("user doesnt exist , you need to signup");
+    console.error("user doesnt exist, you need to signup");
+    return false
   }
   const isEqual = await bcrypt.compare(Password, user.password);
   if (!isEqual) {
     console.error("Password is incorrect.");
+    return false
   }
-  return { id: user._id.toString(), email: Email };
+  return { id: user._id.toString(), email: Email, };
 };
