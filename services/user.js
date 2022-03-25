@@ -66,7 +66,7 @@ export const verifyOTP = async (req, res) => {
 export const login = async (req, res, next) => {
   const DBloginCheck = await loginCheckDB(req.body.email, req.body.password);
   const OTPverified = await verifyOTP(req, res);
-  if (DBloginCheck) {
+  if (DBloginCheck || OTPverified.status === "verified") {
     const token = jwt.sign(
       {
         userId: DBloginCheck.id,
